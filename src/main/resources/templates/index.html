@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lista de Tarefas</title>
+  <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<main>
+  <h1>Lista de Tarefas</h1>
+  <form class="linha" th:action="@{/add}" method="post">
+    <input name="texto" placeholder="Nova tarefa" required>
+    <button type="submit">Adicionar</button>
+  </form>
+  <ul>
+    <li th:each="t : ${tarefas}">
+      <form th:action="@{/toggle/{id}(id=${t.id})}" method="post">
+        <button type="submit" title="Concluir">&#10003;</button>
+      </form>
+      <span th:text="${t.texto}" th:classappend="${t.feita} ? 'feita'"></span>
+      <form th:action="@{/remove/{id}(id=${t.id})}" method="post" style="margin-left:auto">
+        <button type="submit" title="Remover">&#10005;</button>
+      </form>
+    </li>
+  </ul>
+  <small th:if="${#lists.isEmpty(tarefas)}">Nenhuma tarefa ainda.</small>
+</main>
+</body>
+</html>
